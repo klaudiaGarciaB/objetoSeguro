@@ -4,10 +4,10 @@ from base64 import b85encode, b85decode
 
 
 class ObjetoSeguro(object):
-    def __init__(self, nombre):
+    def __init__(self, objetc_name):
         self.__private_key = generate_eth_key()
         self.__private_key_hex = self.__private_key.to_hex()
-        self.nombre = nombre
+        self.objetc_name = objetc_name
 
     @property
     def public_key(self) -> str:
@@ -19,10 +19,12 @@ class ObjetoSeguro(object):
         b85_decode_message = b85decode(message_to_bytes)
         return b85_decode_message
 
-    def sayhello(self, name: str, msg: str):
-        return f'{msg}{name}'
+    @staticmethod
+    def sayhello(self, msg: str) -> str:
+        return msg
 
-    def answer(self, msg: str):
+    @staticmethod
+    def answer(msg: str) -> str:
         return f'{msg}'
 
     @staticmethod
@@ -42,10 +44,10 @@ class ObjetoSeguro(object):
         return self.decrypt_message(decrypted_message_string)
 
     def storemsg(self, message: str):
-        with open(self.nombre+".csv", "a") as fl:
-            fl.writelines([self.nombre+" ", message+" \n"])
+        with open(self.objetc_name+".csv", "a") as fl:
+            fl.writelines([self.objetc_name+" ", message+" \n"])
 
     @staticmethod
     def decrypt_message(encrypted_message):
-        decrypted_message = "mensaje de salida: " + encrypted_message
+        decrypted_message = "MensajeRespuesta: " + encrypted_message
         return decrypted_message
