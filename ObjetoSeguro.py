@@ -15,7 +15,8 @@ class ObjetoSeguro(object):
 
     @staticmethod
     def __base85_decode(message: str) -> bytes:
-        message_to_bytes = message.encode("utf-8")
+        #  message_to_bytes = message.encode("utf-8")
+        message_to_bytes = message
         b85_decode_message = b85decode(message_to_bytes)
         return b85_decode_message
 
@@ -28,11 +29,13 @@ class ObjetoSeguro(object):
         return f'{msg}'
 
     @staticmethod
-    def cypher(plain_message: str, publickey: str) -> str:
+    def cypher(plain_message: str, publickey: str) -> bytes:
         # this part obtains the binary data
         plain_message_to_bytes = plain_message.encode("utf-8")
+        #  plain_message_to_bytes = plain_message
         cypher_message = encrypt(publickey, plain_message_to_bytes)
-        b85_cypher = b85encode(cypher_message).decode("utf-8")
+        #  b85_cypher = b85encode(cypher_message).decode("utf-8")
+        b85_cypher = b85encode(cypher_message)
         return b85_cypher
 
     def decipher(self, encrypted_message: str) -> str:
@@ -45,6 +48,8 @@ class ObjetoSeguro(object):
 
     def storemsg(self, message: str):
         with open(self.objetc_name+".csv", "a") as fl:
+            if isinstance(message, bytes):
+                message = message.decode("utf-8")
             fl.writelines([self.objetc_name+" ", message+" \n"])
 
     @staticmethod
